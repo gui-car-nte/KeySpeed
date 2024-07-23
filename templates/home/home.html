@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="test-container">
+    <h2>Welcome to keyspeed</h2>
+    <div id="test-area">
+        <!-- more things can be added here -->
+    </div>
+</div>
+{% else %}
+<h1>Welcome to KeySpeed!</h1>
+{% endif %}
+{% endblock %}
