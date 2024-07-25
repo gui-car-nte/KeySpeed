@@ -12,10 +12,8 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            UserProfile.objects.create(user=user)
-            login(request, user)
-            return redirect('home')
+            form.save()
+            return redirect('')
     else:
         form = CustomUserCreationForm()
     return render(request, 'home/register.html', {'form': form})
@@ -50,3 +48,17 @@ def profile_edit(request):
     else:
         form = CustomUserChangeForm(instance=request.user)
     return render(request, 'profile/edit_profile.html', {'form': form})
+
+# original
+
+# def register(request):
+#     if request.method == 'POST':
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             UserProfile.objects.create(user=user)
+#             login(request, user)
+#             return redirect('home')
+#     else:
+#         form = CustomUserCreationForm()
+#     return render(request, 'home/register.html', {'form': form})
