@@ -14,9 +14,10 @@ class Keyboard(models.Model):
         return f"{self.brand} {self.model} ({self.type})"
 
 class UserProfile(AbstractUser):
-    username = models.CharField(max_length=30, default='username_not_found')
-    nickname = models.CharField(max_length=30)
+    username = models.CharField(max_length = 30, default='username_not_found', unique = True)
+    nickname = models.CharField(max_length = 30)
     favourite_keyboards = models.ForeignKey(Keyboard, on_delete = models.CASCADE)
+    email = models.EmailField(max_length = 254, verbose_name = 'email address', unique = True)
     pass
 
 # email unique field, sacar por interfaz error si se repiten (checkear la base de datos anets de insertar), no mostrar en actualizacion
