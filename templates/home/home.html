@@ -3,11 +3,48 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="test-container">
-    <h2>Test page</h2>
+    <h2>Typing Test</h2>
     <div id="test-area">
-        <!-- add actual test here -->
+        <p id="test-text">{{ test_text }}</p>
+        <textarea id="user-input" rows="4" cols="50" placeholder="Start typing here..." onfocus="startTimer()"></textarea>
+        <button onclick="submitTest()">Submit</button>
     </div>
 </div>
+<script>
+    var startTime;
+
+    function startTimer() {
+        if (!startTime) {
+            startTime = new Date();
+        }
+    }
+
+    function submitTest() {
+        var endTime = new Date();
+        var timeTaken = (endTime - startTime) / 1000;
+        var userInput = document.getElementById('user-input').value;
+    
+        fetch("{% url 'submit_test' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                time_taken: timeTaken,
+                user_input: userInput
+            })
+        }).then(response => response.json())
+          .then(data => {
+              if (data.error) {
+                  alert(`Error: ${data.error}`);
+              } else {
+                  alert(`Your score: ${data.score}`);
+              }
+          });
+    }
+    
+</script>
 {% else %}
 <h1>Welcome to KeySpeed!</h1>
 {% endif %}
