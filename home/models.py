@@ -16,7 +16,7 @@ class Keyboard(models.Model):
 class UserProfile(AbstractUser):
     username = models.CharField(max_length = 30, default='username_not_found', unique = True)
     nickname = models.CharField(max_length = 30)
-    favourite_keyboards = models.ForeignKey(Keyboard, on_delete = models.CASCADE)
+    favourite_keyboards = models.ForeignKey(Keyboard, on_delete=models.SET_NULL, null=True, blank=True)
     email = models.EmailField(max_length = 254, verbose_name = 'email address', unique = True)
     pass
 
